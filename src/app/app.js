@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const httpStatus = require("http-status");
+const { ValidationError } = require("express-validation");
 
 const router = require("../routes");
 const { logger } = require("../config");
@@ -16,6 +17,14 @@ const api = async (app) => {
 
   app.use((req, res, next) => {
     return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: "Endpoint not found" });
+  });
+
+  app.use((err, req, res, next) => {
+    if (err instanceof ValidationError) {
+      return res.status(err.statusCode).json(err);
+    }
+
+    return res.status(500).json(err);
   });
 };
 
