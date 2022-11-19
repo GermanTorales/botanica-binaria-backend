@@ -6,11 +6,13 @@ dotenv.config();
 const envVarsSchema = Joi.object()
   .keys({
     PORT: Joi.string().default(3000),
+    ENV: Joi.string().default("local"),
     PG_USER: Joi.string().required(),
     PG_PASSWORD: Joi.string().required(),
     PG_HOST: Joi.string().required(),
     PG_PORT: Joi.string().required(),
     PG_DATABASE: Joi.string().required(),
+    HASH_SALT_ROUNDS: Joi.string().required(),
   })
   .unknown();
 
@@ -20,12 +22,16 @@ if (error) throw new Error(`Environment variables validation error: ${error?.mes
 
 const envVariables = {
   port: envVars.PORT,
+  env: envVars.ENV,
   database: {
     user: envVars.PG_USER,
     password: envVars.PG_PASSWORD,
     host: envVars.PG_HOST,
     port: envVars.PG_PORT,
     databaseName: envVars.PG_DATABASE,
+  },
+  hash: {
+    saltRounds: parseInt(envVars.HASH_SALT_ROUNDS),
   },
 };
 
