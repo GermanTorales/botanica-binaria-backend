@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-validation": "^4.1.0",
     "http-status": "^1.5.3",
     "joi": "^17.7.0",
     "morgan": "^1.10.0",
