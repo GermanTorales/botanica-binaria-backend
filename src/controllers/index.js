@@ -1,3 +1,4 @@
 const authController = require('./auth.controller');
+const healthController = require('./health.controller');
 
-module.exports = { authController };
+module.exports = { authController, healthController };
