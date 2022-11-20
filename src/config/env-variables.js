@@ -13,6 +13,7 @@ const envVarsSchema = Joi.object()
     PG_PORT: Joi.string().required(),
     PG_DATABASE: Joi.string().required(),
     HASH_SALT_ROUNDS: Joi.string().required(),
+    JWT_SECRET_KEY: Joi.string().required(),
   })
   .unknown();
 
@@ -33,6 +34,7 @@ const envVariables = {
   hash: {
     saltRounds: parseInt(envVars.HASH_SALT_ROUNDS),
   },
+  jwtKey: envVars.JWT_SECRET_KEY,
 };
 
 module.exports = envVariables;
