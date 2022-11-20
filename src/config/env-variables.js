@@ -1,12 +1,12 @@
-const dotenv = require("dotenv");
-const Joi = require("joi");
+const dotenv = require('dotenv');
+const Joi = require('joi');
 
 dotenv.config();
 
 const envVarsSchema = Joi.object()
   .keys({
     PORT: Joi.string().default(3000),
-    ENV: Joi.string().default("local"),
+    ENV: Joi.string().default('local'),
     PG_USER: Joi.string().required(),
     PG_PASSWORD: Joi.string().required(),
     PG_HOST: Joi.string().required(),
@@ -17,7 +17,7 @@ const envVarsSchema = Joi.object()
   })
   .unknown();
 
-const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: "key" } }).validate(process.env);
+const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
 if (error) throw new Error(`Environment variables validation error: ${error?.message}`);
 

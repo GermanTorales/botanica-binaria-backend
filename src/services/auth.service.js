@@ -1,45 +1,37 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-const { envVariables } = require("../config");
-const { userRepository } = require("../repositories");
-const { userExceptions } = require("../exceptions");
+const { envVariables } = require('../config');
+const { userRepository } = require('../repositories');
+const { userExceptions } = require('../exceptions');
 
-const signUp = async (newUserData) => {
-  try {
-    const { password, confirmPassword } = newUserData;
+const signUp = async newUserData => {
+  const { password, confirmPassword } = newUserData;
 
-    if (password !== confirmPassword) throw new userExceptions.PasswordsAreNotTheSame();
+  if (password !== confirmPassword) throw new userExceptions.PasswordsAreNotTheSame();
 
-    const userCreated = await userRepository.createUser(newUserData);
+  const userCreated = await userRepository.createUser(newUserData);
 
-    return userCreated;
-  } catch (error) {
-    throw error;
-  }
+  return userCreated;
 };
 
-const logIn = async (logInData) => {
-  try {
-    const { email, username, password } = logInData;
-    let query = {};
+const logIn = async logInData => {
+  const { email, username, password } = logInData;
+  let query = {};
 
-    if (email) query = { email };
-    else query = { username };
+  if (email) query = { email };
+  else query = { username };
 
-    const user = await userRepository.findUser(query);
+  const user = await userRepository.findUser(query);
 
-    if (!user) throw new userExceptions.UserNotFound(query);
+  if (!user) throw new userExceptions.UserNotFound(query);
 
-    const matchPassword = await user.validatePassword(password);
+  const matchPassword = await user.validatePassword(password);
 
-    if (!matchPassword) throw new userExceptions.InvalidCredentials();
+  if (!matchPassword) throw new userExceptions.InvalidCredentials();
 
-    const payload = { id: user.id, username: user.username };
+  const payload = { id: user.id, username: user.username };
 
-    return jwt.sign(payload, envVariables.jwtKey);
-  } catch (error) {
-    throw error;
-  }
+  return jwt.sign(payload, envVariables.jwtKey);
 };
 
 module.exports = { signUp, logIn };

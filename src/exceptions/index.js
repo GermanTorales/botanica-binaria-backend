@@ -1,3 +1,3 @@
-const userExceptions = require("./user.exceptions");
+const userExceptions = require('./user.exceptions');
 
 module.exports = { userExceptions };

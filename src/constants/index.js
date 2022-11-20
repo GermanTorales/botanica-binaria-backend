@@ -1,3 +1,3 @@
-const userEnums = require("./user.contants");
+const userEnums = require('./user.contants');
 
 module.exports = { ...userEnums };
