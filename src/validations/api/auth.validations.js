@@ -13,4 +13,16 @@ const signUpValidation = {
   }),
 };
 
-module.exports = { signUpValidation };
+const logInValidation = {
+  body: Joi.object()
+    .keys({
+      username: Joi.string().lowercase(),
+      email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .lowercase(),
+      password: Joi.string().required(),
+    })
+    .xor("username", "email"),
+};
+
+module.exports = { signUpValidation, logInValidation };

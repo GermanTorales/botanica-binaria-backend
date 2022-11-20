@@ -1,3 +1,3 @@
-const authRepository = require("./auth.repository");
+const userRepository = require("./user.repository");
 
-module.exports = { authRepository };
+module.exports = { userRepository };

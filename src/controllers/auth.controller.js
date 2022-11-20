@@ -21,4 +21,22 @@ const handleSignUp = async (req, res, next) => {
   }
 };
 
-module.exports = { handleSignUp };
+const handleLogIn = async (req, res, next) => {
+  try {
+    const logInData = req.body;
+
+    const token = await authService.logIn(logInData);
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Login successful", data: { token } });
+  } catch (error) {
+    if (error instanceof userExceptions.InvalidCredentials)
+      return res.status(httpStatus.BAD_REQUEST).json({ code: httpStatus.BAD_REQUEST, message: error?.message });
+
+    if (error instanceof userExceptions.UserNotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
+
+    next(error);
+  }
+};
+
+module.exports = { handleSignUp, handleLogIn };

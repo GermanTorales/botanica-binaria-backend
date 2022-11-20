@@ -5,6 +5,6 @@ const { authValidations } = require("../validations");
 
 router.post("/sign-up", validate(authValidations.signUpValidation, {}, {}), authController.handleSignUp);
 
-router.post("/log-in");
+router.post("/log-in", validate(authValidations.logInValidation, {}, {}), authController.handleLogIn);
 
 module.exports = router;
