@@ -4,7 +4,12 @@
   "description": "",
   "main": "src/www/www.js",
   "scripts": {
-    "dev": "nodemon ./src/www/www.js"
+    "start": "node ./src/www/www.js",
+    "dev": "nodemon ./src/www/www.js",
+    "lint": "eslint ./src/**/*.js",
+    "lint:fix": "eslint --fix ./src/**/*.js",
+    "prettier": "prettier --check ./src/**/*.js",
+    "prettier:fix": "prettier --write ./src/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +32,13 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1",
+    "standard": "^17.0.0"
   }
 }
