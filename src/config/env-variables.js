@@ -5,8 +5,8 @@ dotenv.config();
 
 const envVarsSchema = Joi.object()
   .keys({
-    PORT: Joi.string().default(3000),
-    ENV: Joi.string().default('local'),
+    NODE_PORT: Joi.string().default(3000),
+    NODE_ENV: Joi.string().default('local'),
     PG_USER: Joi.string().required(),
     PG_PASSWORD: Joi.string().required(),
     PG_HOST: Joi.string().required(),
@@ -22,8 +22,8 @@ const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' }
 if (error) throw new Error(`Environment variables validation error: ${error?.message}`);
 
 const envVariables = {
-  port: envVars.PORT,
-  env: envVars.ENV,
+  port: envVars.NODE_PORT,
+  env: envVars.NODE_ENV,
   database: {
     user: envVars.PG_USER,
     password: envVars.PG_PASSWORD,
