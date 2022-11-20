@@ -16,7 +16,7 @@ class EmailAlreadyExist extends Error {
 
 class PasswordsAreNotTheSame extends Error {
   constructor() {
-    super("Passwords are not the same");
+    super('Passwords are not the same');
   }
 }
 
@@ -28,7 +28,7 @@ class UserNotFound extends Error {
 
 class InvalidCredentials extends Error {
   constructor() {
-    super("Invalid credentials");
+    super('Invalid credentials');
   }
 }
 

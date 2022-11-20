@@ -1,8 +1,8 @@
-const { Model, DataTypes } = require("sequelize");
-const bcrypt = require("bcrypt");
-const { format } = require("date-fns");
-const { USER_ROLES } = require("../constants");
-const { envVariables, db } = require("../config");
+const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
+const { format } = require('date-fns');
+const { USER_ROLES } = require('../constants');
+const { envVariables, db } = require('../config');
 
 class User extends Model {}
 
@@ -16,10 +16,10 @@ User.init(
     password: { type: DataTypes.STRING, allowNull: false },
     role: { type: DataTypes.ENUM, defaultValue: USER_ROLES.CLIENT, values: Object.values(USER_ROLES) },
   },
-  { sequelize: db, modelName: "user" }
+  { sequelize: db, modelName: 'user' }
 );
 
-User.addHook("beforeCreate", async (user) => {
+User.addHook('beforeCreate', async user => {
   // bcrypt does not support JavaScript async/await, so we resort to creating a promise
   const hashedPassword = await new Promise((resolve, reject) => {
     bcrypt.genSalt(envVariables.hash.saltRounds, function (err, salt) {
@@ -35,7 +35,7 @@ User.addHook("beforeCreate", async (user) => {
 
   user.password = hashedPassword;
 
-  if (!user?.username) user.username = `${user.name.toLowerCase()}${user.surname.toLowerCase()}${format(new Date(), "yyyyMMddHHmm")}`;
+  if (!user?.username) user.username = `${user.name.toLowerCase()}${user.surname.toLowerCase()}${format(new Date(), 'yyyyMMddHHmm')}`;
 });
 
 User.prototype.validatePassword = function (password) {

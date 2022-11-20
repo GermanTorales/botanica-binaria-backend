@@ -1,3 +1,3 @@
-const apiValidations = require("./api");
+const apiValidations = require('./api');
 
 module.exports = { ...apiValidations };

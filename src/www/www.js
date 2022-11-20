@@ -1,6 +1,6 @@
-const express = require("express");
-const api = require("../app/app");
-const { envVariables, logger, db } = require("../config");
+const express = require('express');
+const api = require('../app/app');
+const { envVariables, logger, db } = require('../config');
 
 const app = express();
 
@@ -12,7 +12,7 @@ const runServer = async () => {
   try {
     await db.sync({ force: false });
 
-    logger.info("Database is connected");
+    logger.info('Database is connected');
 
     app.listen(port, () => logger.info(`Express server on port ${port}`));
   } catch (error) {
