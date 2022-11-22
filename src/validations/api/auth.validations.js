@@ -1,4 +1,4 @@
-const { Joi } = require("express-validation");
+const { Joi } = require('express-validation');
 
 const signUpValidation = {
   body: Joi.object().keys({
@@ -22,7 +22,7 @@ const logInValidation = {
         .lowercase(),
       password: Joi.string().required(),
     })
-    .xor("username", "email"),
+    .xor('username', 'email'),
 };
 
 module.exports = { signUpValidation, logInValidation };
