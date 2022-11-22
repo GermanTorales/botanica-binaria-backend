@@ -5,8 +5,12 @@ class BaseRepository {
 
   async get() {}
 
-  async getOne(query) {
-    return await this.model.findOne({ where: { ...query } });
+  async getOne(query, attributes = []) {
+    const options = { where: { ...query } };
+
+    if (attributes?.length) options.attributes = attributes;
+
+    return await this.model.findOne(options);
   }
 
   async create(data) {

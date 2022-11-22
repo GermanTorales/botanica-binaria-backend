@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { envVariables } = require('../config');
 const { userRepository } = require('../repositories');
 const { userExceptions } = require('../exceptions');
+const { encryptHelpers } = require('../helpers');
 
 const signUp = async newUserData => {
   const { password, confirmPassword } = newUserData;
@@ -25,13 +26,24 @@ const logIn = async logInData => {
 
   if (!user) throw new userExceptions.UserNotFound(query);
 
-  const matchPassword = await user.validatePassword(password);
+  const matchPassword = await encryptHelpers.validatePassword(password, user.password);
 
   if (!matchPassword) throw new userExceptions.InvalidCredentials();
 
   const payload = { id: user.id, username: user.username };
+  const { secret, expiresIn } = envVariables.jwt;
 
-  return jwt.sign(payload, envVariables.jwtKey);
+  return jwt.sign(payload, secret, { expiresIn });
 };
 
-module.exports = { signUp, logIn };
+const me = async id => {
+  const user = await userRepository.findUserByAttributes({ id });
+
+  if (!user) throw new userExceptions.UserNotFound({ id });
+
+  const { password, ...data } = user;
+
+  return data;
+};
+
+module.exports = { signUp, logIn, me };

@@ -22,6 +22,14 @@ class UserRepository extends BaseRepository {
   async findUser(query) {
     return await this.getOne(query);
   }
+
+  async findUserByAttributes(query) {
+    const attributes = ['name', 'surname', 'email', 'id', 'username'];
+
+    const data = await this.getOne(query, attributes);
+
+    return data?.dataValues;
+  }
 }
 
 const userRepository = new UserRepository(User);

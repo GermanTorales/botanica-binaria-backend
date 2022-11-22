@@ -29,6 +29,7 @@ const handleLogIn = async (req, res, next) => {
 
     return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: 'Login successful', data: { token } });
   } catch (error) {
+    console.log(error);
     if (error instanceof userExceptions.InvalidCredentials)
       return res.status(httpStatus.BAD_REQUEST).json({ code: httpStatus.BAD_REQUEST, message: error?.message });
 
@@ -39,4 +40,24 @@ const handleLogIn = async (req, res, next) => {
   }
 };
 
-module.exports = { handleSignUp, handleLogIn };
+const handleMe = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+
+    if (!id) throw new userExceptions.InvalidCredentials();
+
+    const user = await authService.me(id);
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, data: { user } });
+  } catch (error) {
+    if (error instanceof userExceptions.InvalidCredentials)
+      return res.status(httpStatus.UNAUTHORIZED).json({ code: httpStatus.UNAUTHORIZED, message: error?.message });
+
+    if (error instanceof userExceptions.UserNotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
+
+    next(error);
+  }
+};
+
+module.exports = { handleSignUp, handleLogIn, handleMe };
