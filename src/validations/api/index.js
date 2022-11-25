@@ -1,3 +1,4 @@
-const authValidations = require("./auth.validations");
+const authValidations = require('./auth.validations');
+const productValidations = require('./product.validations');
 
-module.exports = { authValidations };
+module.exports = { authValidations, productValidations };

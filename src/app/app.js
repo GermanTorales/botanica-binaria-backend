@@ -18,7 +18,9 @@ const api = async app => {
   app.use('/api', router);
 
   app.use((req, res, next) => {
-    return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: `Endpoint ${req?.url} not found` });
+    return res
+      .status(httpStatus.NOT_FOUND)
+      .json({ code: httpStatus.NOT_FOUND, message: `Endpoint ${req.method.toUpperCase()} ${req?.url} not found` });
   });
 
   app.use((err, req, res, next) => {

@@ -24,7 +24,7 @@ class UserRepository extends BaseRepository {
   }
 
   async findUserByAttributes(query) {
-    const attributes = ['name', 'surname', 'email', 'id', 'username'];
+    const attributes = ['name', 'surname', 'email', 'id', 'username', 'role'];
 
     const data = await this.getOne(query, attributes);
 

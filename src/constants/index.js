@@ -1,3 +1,4 @@
-const userEnums = require('./user.contants');
+const userEnums = require('./user.constants');
+const productEnums = require('./product.constants');
 
-module.exports = { ...userEnums };
+module.exports = { ...userEnums, ...productEnums };

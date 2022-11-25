@@ -29,7 +29,6 @@ const handleLogIn = async (req, res, next) => {
 
     return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: 'Login successful', data: { token } });
   } catch (error) {
-    console.log(error);
     if (error instanceof userExceptions.InvalidCredentials)
       return res.status(httpStatus.BAD_REQUEST).json({ code: httpStatus.BAD_REQUEST, message: error?.message });
 

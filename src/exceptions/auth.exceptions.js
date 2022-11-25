@@ -4,4 +4,16 @@ class NotLogin extends Error {
   }
 }
 
-module.exports = { NotLogin };
+class TokenNotFound extends Error {
+  constructor() {
+    super('The token was not sent in the headers');
+  }
+}
+
+class NotAdmin extends Error {
+  constructor(role) {
+    super(`User role [${role}] not allowed`);
+  }
+}
+
+module.exports = { NotLogin, TokenNotFound, NotAdmin };

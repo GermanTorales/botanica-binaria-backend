@@ -30,7 +30,7 @@ const logIn = async logInData => {
 
   if (!matchPassword) throw new userExceptions.InvalidCredentials();
 
-  const payload = { id: user.id, username: user.username };
+  const payload = { id: user.id, username: user.username, role: user.role };
   const { secret, expiresIn } = envVariables.jwt;
 
   return jwt.sign(payload, secret, { expiresIn });
