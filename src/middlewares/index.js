@@ -1,3 +1,3 @@
-const isAuthenticated = require('./auth.middleware');
+const authentication = require('./auth.middleware');
 
-module.exports = { isAuthenticated };
+module.exports = { ...authentication };
