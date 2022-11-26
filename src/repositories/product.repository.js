@@ -24,6 +24,16 @@ class ProductRepository extends BaseRepository {
 
     return await this.get({ include, attributes });
   }
+
+  async updateProduct({ sku, productData }) {
+    const query = { sku };
+
+    const [productUpdated] = await this.update({ query, data: productData });
+
+    if (!productUpdated) throw new productExceptions.NotFound(query);
+
+    return productData;
+  }
 }
 
 const productRepository = new ProductRepository(Product);

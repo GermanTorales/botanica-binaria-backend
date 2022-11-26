@@ -17,4 +17,8 @@ const findAll = async () => {
   return await productRepository.findProducts();
 };
 
-module.exports = { create, findAll };
+const update = async ({ sku, updateData }) => {
+  return await productRepository.updateProduct({ sku, productData: updateData });
+};
+
+module.exports = { create, findAll, update };
