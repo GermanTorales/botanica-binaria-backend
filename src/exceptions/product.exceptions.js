@@ -6,4 +6,10 @@ class SkuAlreadyExist extends Error {
   }
 }
 
-module.exports = { SkuAlreadyExist };
+class NotFound extends Error {
+  constructor(query) {
+    super(`Product ${JSON.stringify(query)} not found.`);
+  }
+}
+
+module.exports = { SkuAlreadyExist, NotFound };

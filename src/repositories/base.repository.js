@@ -25,7 +25,9 @@ class BaseRepository {
     return await this.model.create(data);
   }
 
-  async update() {}
+  async update({ query = {}, data }) {
+    return await this.model.update(data, { where: { ...query } });
+  }
 
   async delete() {}
 }

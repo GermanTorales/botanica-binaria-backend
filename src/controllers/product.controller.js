@@ -28,4 +28,22 @@ const handleGet = async (req, res, next) => {
   }
 };
 
-module.exports = { handleCreate, handleGet };
+const handleUpdate = async (req, res, next) => {
+  try {
+    const { sku } = req.params;
+    const updateData = req.body;
+
+    await productService.update({ sku, updateData });
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: `Product SKU:${sku} updated.` });
+  } catch (error) {
+    if (error instanceof productExceptions.NotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
+
+    console.log(error);
+
+    next(error);
+  }
+};
+
+module.exports = { handleCreate, handleGet, handleUpdate };
