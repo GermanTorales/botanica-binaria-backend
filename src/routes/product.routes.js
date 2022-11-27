@@ -8,5 +8,6 @@ const router = require('express').Router();
 router.get('/', productController.handleGet);
 router.post('/', isAuthenticated, isAdmin, validate(productValidations.createValidation, {}, {}), productController.handleCreate);
 router.put('/:sku', isAuthenticated, isAdmin, validate(productValidations.updateValidation, {}, {}), productController.handleUpdate);
+router.delete('/:sku', isAuthenticated, isAdmin, productController.handleDelete);
 
 module.exports = router;
