@@ -27,4 +27,16 @@ const updateValidation = {
   params: Joi.object().keys({ sku: Joi.string().required() }),
 };
 
-module.exports = { createValidation, updateValidation };
+const getByFiltersValidation = {
+  query: Joi.object().keys({
+    title: Joi.string(),
+    description: Joi.string(),
+    minStock: Joi.number(),
+    maxStock: Joi.number(),
+    minPrice: Joi.number(),
+    maxPrice: Joi.number(),
+    status: Joi.string().valid(...['active', 'inactive', 'deleted']),
+  }),
+};
+
+module.exports = { createValidation, updateValidation, getByFiltersValidation };

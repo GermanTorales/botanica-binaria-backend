@@ -20,9 +20,23 @@ const handleCreate = async (req, res, next) => {
 
 const handleGet = async (req, res, next) => {
   try {
-    const products = await productService.findAll();
+    const filters = req.query;
+
+    const products = await productService.findAll(filters);
 
     return res.status(httpStatus.OK).json({ code: httpStatus.OK, data: products });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleGetOne = async (req, res, next) => {
+  try {
+    const { sku } = req.params;
+
+    const product = await productService.findOne(sku);
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, data: product });
   } catch (error) {
     next(error);
   }
@@ -59,4 +73,4 @@ const handleDelete = async (req, res, next) => {
   }
 };
 
-module.exports = { handleCreate, handleGet, handleUpdate, handleDelete };
+module.exports = { handleCreate, handleGet, handleUpdate, handleDelete, handleGetOne };

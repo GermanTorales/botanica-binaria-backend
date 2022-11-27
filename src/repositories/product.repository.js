@@ -1,6 +1,7 @@
 const BaseRepository = require('./base.repository');
 const { Product, Image } = require('../models');
 const { productExceptions } = require('../exceptions');
+const { Op } = require('sequelize');
 
 class ProductRepository extends BaseRepository {
   async createProduct(productData) {
@@ -18,11 +19,20 @@ class ProductRepository extends BaseRepository {
     }
   }
 
-  async findProducts() {
+  async findProducts(filters) {
+    const query = this._buildFilter(filters);
     const include = [{ model: Image, as: 'images', attributes: ['url', 'id'] }];
     const attributes = ['id', 'sku', 'title', 'price', 'stock', 'description'];
 
-    return await this.get({ include, attributes });
+    return await this.get({ include, attributes, query });
+  }
+
+  async findProduct(sku) {
+    const query = { sku };
+    const include = [{ model: Image, as: 'images', attributes: ['url', 'id'] }];
+    const attributes = ['id', 'sku', 'title', 'price', 'stock', 'description'];
+
+    return await this.get({ query, include, attributes });
   }
 
   async updateProduct({ sku, productData }) {
@@ -43,6 +53,40 @@ class ProductRepository extends BaseRepository {
     if (!productDeleted) throw new productExceptions.NotFound(query);
 
     return productDeleted;
+  }
+
+  _buildFilter(filters) {
+    const where = Object.entries(filters).reduce((where, [key, value]) => {
+      if (key === 'title' || key === 'description') {
+        where = { ...where, [key]: { [Op.iLike]: `%${value}%` } };
+      }
+
+      if (key === 'minPrice') {
+        if (where?.price) where = { ...where, price: { ...where.price, [Op.gte]: value } };
+        else where = { ...where, price: { [Op.gte]: value } };
+      }
+
+      if (key === 'maxPrice') {
+        if (where?.price) where = { ...where, price: { ...where.price, [Op.lte]: value } };
+        else where = { ...where, price: { [Op.lte]: value } };
+      }
+
+      if (key === 'minStock') {
+        if (where?.stock) where = { ...where, stock: { ...where.stock, [Op.gte]: value } };
+        else where = { ...where, stock: { [Op.gte]: value } };
+      }
+
+      if (key === 'maxStock') {
+        if (where?.stock) where = { ...where, stock: { ...where.stock, [Op.lte]: value } };
+        else where = { ...where, stock: { [Op.lte]: value } };
+      }
+
+      if (key === 'status') where = { ...where, status: value };
+
+      return where;
+    }, {});
+
+    return where;
   }
 }
 
