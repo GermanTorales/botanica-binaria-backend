@@ -40,10 +40,23 @@ const handleUpdate = async (req, res, next) => {
     if (error instanceof productExceptions.NotFound)
       return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
 
-    console.log(error);
+    next(error);
+  }
+};
+
+const handleDelete = async (req, res, next) => {
+  try {
+    const { sku } = req.params;
+
+    await productService.deleteProduct(sku);
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: `Product with sku ${sku} was deleted` });
+  } catch (error) {
+    if (error instanceof productExceptions.NotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
 
     next(error);
   }
 };
 
-module.exports = { handleCreate, handleGet, handleUpdate };
+module.exports = { handleCreate, handleGet, handleUpdate, handleDelete };

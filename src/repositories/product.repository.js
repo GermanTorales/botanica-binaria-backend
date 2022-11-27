@@ -34,6 +34,16 @@ class ProductRepository extends BaseRepository {
 
     return productData;
   }
+
+  async deleteProduct(sku) {
+    const query = { sku };
+
+    const productDeleted = await this.delete({ query });
+
+    if (!productDeleted) throw new productExceptions.NotFound(query);
+
+    return productDeleted;
+  }
 }
 
 const productRepository = new ProductRepository(Product);

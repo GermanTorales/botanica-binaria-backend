@@ -29,7 +29,9 @@ class BaseRepository {
     return await this.model.update(data, { where: { ...query } });
   }
 
-  async delete() {}
+  async delete({ query }) {
+    return await this.model.destroy({ where: { ...query } });
+  }
 }
 
 module.exports = BaseRepository;

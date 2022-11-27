@@ -21,4 +21,8 @@ const update = async ({ sku, updateData }) => {
   return await productRepository.updateProduct({ sku, productData: updateData });
 };
 
-module.exports = { create, findAll, update };
+const deleteProduct = async sku => {
+  return await productRepository.deleteProduct(sku);
+};
+
+module.exports = { create, findAll, update, deleteProduct };
