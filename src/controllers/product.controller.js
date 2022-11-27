@@ -89,4 +89,19 @@ const handleAddImage = async (req, res, next) => {
   }
 };
 
-module.exports = { handleCreate, handleGet, handleUpdate, handleDelete, handleGetOne, handleAddImage };
+const handleDeleteImage = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    await productService.deleteImage(id);
+
+    return res.status(httpStatus.OK).json({ code: httpStatus.OK, message: `Image deleted ${id}` });
+  } catch (error) {
+    if (error instanceof productExceptions.NotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
+
+    next(error);
+  }
+};
+
+module.exports = { handleCreate, handleGet, handleUpdate, handleDelete, handleGetOne, handleAddImage, handleDeleteImage };

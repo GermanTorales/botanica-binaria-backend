@@ -48,4 +48,11 @@ const addImgValidation = {
   }),
 };
 
-module.exports = { createValidation, updateValidation, getByFiltersValidation, addImgValidation };
+const deleteImgValidation = {
+  params: Joi.object().keys({
+    sku: Joi.string().required(),
+    id: Joi.string().required(),
+  }),
+};
+
+module.exports = { createValidation, updateValidation, getByFiltersValidation, addImgValidation, deleteImgValidation };

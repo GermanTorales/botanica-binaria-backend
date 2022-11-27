@@ -7,6 +7,10 @@ class ImageRepository extends BaseRepository {
 
     return await this.create(data);
   }
+
+  async deleteImage(id) {
+    return await this.delete({ query: { id } });
+  }
 }
 
 const imageRepository = new ImageRepository(Image);
