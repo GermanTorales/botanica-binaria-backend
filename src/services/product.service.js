@@ -42,4 +42,8 @@ const addImage = async (sku, url) => {
   return await imageRepository.addImage(url, productId);
 };
 
-module.exports = { create, findAll, update, deleteProduct, findOne, addImage };
+const deleteImage = async id => {
+  return await imageRepository.deleteImage(id);
+};
+
+module.exports = { create, findAll, update, deleteProduct, findOne, addImage, deleteImage };
