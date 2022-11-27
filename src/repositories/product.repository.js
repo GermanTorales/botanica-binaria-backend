@@ -32,7 +32,9 @@ class ProductRepository extends BaseRepository {
     const include = [{ model: Image, as: 'images', attributes: ['url', 'id'] }];
     const attributes = ['id', 'sku', 'title', 'price', 'stock', 'description'];
 
-    return await this.get({ query, include, attributes });
+    const [product] = await this.get({ query, include, attributes });
+
+    return product?.dataValues || product;
   }
 
   async updateProduct({ sku, productData }) {
