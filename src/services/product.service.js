@@ -13,8 +13,12 @@ const create = async newProductData => {
   return productCreated;
 };
 
-const findAll = async () => {
-  return await productRepository.findProducts();
+const findAll = async (filters = {}) => {
+  return await productRepository.findProducts(filters);
+};
+
+const findOne = async sku => {
+  return await productRepository.findProduct(sku);
 };
 
 const update = async ({ sku, updateData }) => {
@@ -25,4 +29,4 @@ const deleteProduct = async sku => {
   return await productRepository.deleteProduct(sku);
 };
 
-module.exports = { create, findAll, update, deleteProduct };
+module.exports = { create, findAll, update, deleteProduct, findOne };
