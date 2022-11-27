@@ -1,3 +1,4 @@
+const { productExceptions } = require('../exceptions');
 const { productRepository, imageRepository } = require('../repositories');
 
 const create = async newProductData => {
@@ -29,4 +30,16 @@ const deleteProduct = async sku => {
   return await productRepository.deleteProduct(sku);
 };
 
-module.exports = { create, findAll, update, deleteProduct, findOne };
+const addImage = async (sku, url) => {
+  const product = await productRepository.findProduct(sku);
+
+  if (!product) throw new productExceptions.NotFound({ sku });
+
+  const { id: productId } = product;
+  console.log(product);
+  console.log(productId);
+
+  return await imageRepository.addImage(url, productId);
+};
+
+module.exports = { create, findAll, update, deleteProduct, findOne, addImage };

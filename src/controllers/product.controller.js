@@ -73,4 +73,20 @@ const handleDelete = async (req, res, next) => {
   }
 };
 
-module.exports = { handleCreate, handleGet, handleUpdate, handleDelete, handleGetOne };
+const handleAddImage = async (req, res, next) => {
+  try {
+    const { sku } = req.params;
+    const { url } = req.body;
+
+    await productService.addImage(sku, url);
+
+    return res.status(httpStatus.CREATED).json({ code: httpStatus.CREATED, message: `New image added to product ${sku}` });
+  } catch (error) {
+    if (error instanceof productExceptions.NotFound)
+      return res.status(httpStatus.NOT_FOUND).json({ code: httpStatus.NOT_FOUND, message: error?.message });
+
+    next(error);
+  }
+};
+
+module.exports = { handleCreate, handleGet, handleUpdate, handleDelete, handleGetOne, handleAddImage };

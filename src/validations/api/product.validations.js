@@ -39,4 +39,13 @@ const getByFiltersValidation = {
   }),
 };
 
-module.exports = { createValidation, updateValidation, getByFiltersValidation };
+const addImgValidation = {
+  params: Joi.object().keys({
+    sku: Joi.string().required(),
+  }),
+  body: Joi.object().keys({
+    url: Joi.string().required(),
+  }),
+};
+
+module.exports = { createValidation, updateValidation, getByFiltersValidation, addImgValidation };
